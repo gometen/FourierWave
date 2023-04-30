@@ -1,7 +1,9 @@
 <template>
+    <button v-on:click="start">Start Display</button>
+    <button v-on:click="stop">Stop Display</button>
+    <button v-on:click="record">Start Recording</button>
+    <button v-on:click="deldata">Delete Recording</button>
     <div id="waveform"></div>
-    <button v-on:click="start">Start Recording</button>
-    <button v-on:click="stop">Stop Recording</button>
 </template>
 
 <script>
@@ -17,24 +19,30 @@ export default {
       required: true
     }
   },
-  mounted() {
-    const options = {
-      container: '#waveform',
-      waveColor: 'Black',
-      interact      : false,
-      cursorWidth   : 0,
-      barHeight: 5,
-      barWidth: 4,
-      barRadius: 2,
-      plugins: [
-        MicrophonePlugin.create()
-      ]
+  data() {
+    return {
+      isRecording: false,
+      mediaRecorder: null,
+      wavesurfer: null,
+      chunks: [],
     };
-    this.wavesurfer = WaveSurfer.create(options);
-    this.mediaStreamSource = null;
+  },
+  mounted() {
   },
   methods: {
     start() {
+      const options = {
+        container: '#waveform',
+        waveColor: 'Black',
+        interact      : false,
+        barHeight: 5,
+        barWidth: 4,
+        barRadius: 2,
+        plugins: [
+          MicrophonePlugin.create()
+        ]
+      };
+      this.wavesurfer = WaveSurfer.create(options);
       this.wavesurfer.microphone.on('deviceReady', function(stream) {
         console.log('Device ready!', stream);
       });
@@ -45,7 +53,70 @@ export default {
       this.wavesurfer.microphone.start();
     },
     stop() {
-      this.wavesurfer.microphone.stopDevice();
+      //this.wavesurfer.microphone.stopDevice();
+      this.wavesurfer.destroy();
+    },
+    // 録音ボタン
+    record:async function() {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+          this.mediaRecorder = new MediaRecorder(stream);
+          this.mediaRecorder.start();
+          this.chunks = [];
+
+          this.mediaRecorder.addEventListener('dataavailable', event => {
+            this.chunks.push(event.data);
+            console.log("Push Event completed"); 
+          });
+
+          this.mediaRecorder.addEventListener('stop', () => {
+            const blob = new Blob(this.chunks, { type: 'audio/ogg; codecs=opus' });
+            this.createWaveform(blob);
+            //this.waveSurfer.loadBlob(blob); 
+          });
+
+          this.isRecording = true;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+      // 2秒後に録音を停止する
+      setTimeout(() => {
+        this.stopRecording();
+      }, 2000);
+    },
+
+    // 録音の停止
+    async stopRecording() {
+      this.isRecording = false;
+      await this.mediaRecorder.stop();
+    },
+    // 録音データの波形表示
+    createWaveform(blob) {
+      const options = {
+        container: '#waveform',
+        waveColor: "Blue",
+        progressColor: "purple",
+        cursorColor: "navy",
+        barHeight: 5,
+        barWidth: 4,
+        barRadius: 2,
+        height: 200
+      };
+      this.wavesurfer = WaveSurfer.create(options);
+      this.wavesurfer.loadBlob(blob);
+      // 音声データをWaveSurferに渡して、波形を表示する
+      // this.wavesurfer.drawBuffer();
+      // 波形の描画が完了するまで待ってから表示する
+      //this.wavesurfer.on('ready', function () {
+        console.log(this.wavesurfer.backend.buffer); // Blobの中身が表示される
+      //  this.wavesurfer.play();
+      //});
+    },
+    // 削除ボタン
+    deldata(){
+
     }
   }
 }
