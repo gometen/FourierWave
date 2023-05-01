@@ -1,130 +1,149 @@
 <template>
-    <button v-on:click="start">Start Display</button>
-    <button v-on:click="stop">Stop Display</button>
-    <button v-on:click="record">Start Recording</button>
-    <button v-on:click="deldata">Delete Recording</button>
-    <div id="waveform"></div>
+  <v-container>
+    <v-row class="text-center">
+      <v-col cols="12">
+        <v-img
+          :src="require('../assets/logo.svg')"
+          class="my-3"
+          contain
+          height="200"
+        />
+      </v-col>
+
+      <v-col class="mb-4">
+        <h1 class="display-2 font-weight-bold mb-3">
+          Welcome to the Vuetify 3 Beta
+        </h1>
+
+
+        <p class="subheading font-weight-regular">
+          For help and collaboration with other Vuetify developers,
+          <br>please join our online
+          <a
+            href="https://community.vuetifyjs.com"
+            target="_blank"
+          >Discord Community</a>
+        </p>
+      </v-col>
+
+      <v-col
+        class="mb-5"
+        cols="12"
+      >
+        <h2 class="headline font-weight-bold mb-5">
+          What's next?
+        </h2>
+
+        <v-row justify="center">
+          <a
+            v-for="(next, i) in whatsNext"
+            :key="i"
+            :href="next.href"
+            class="subheading mx-3"
+            target="_blank"
+          >
+            {{ next.text }}
+          </a>
+        </v-row>
+      </v-col>
+
+      <v-col
+        class="mb-5"
+        cols="12"
+      >
+        <h2 class="headline font-weight-bold mb-5">
+          Important Links
+        </h2>
+
+        <v-row justify="center">
+          <a
+            v-for="(link, i) in importantLinks"
+            :key="i"
+            :href="link.href"
+            class="subheading mx-3"
+            target="_blank"
+          >
+            {{ link.text }}
+          </a>
+        </v-row>
+      </v-col>
+
+      <v-col
+        class="mb-5"
+        cols="12"
+      >
+        <h2 class="headline font-weight-bold mb-5">
+          Ecosystem
+        </h2>
+
+        <v-row justify="center">
+          <a
+            v-for="(eco, i) in ecosystem"
+            :key="i"
+            :href="eco.href"
+            class="subheading mx-3"
+            target="_blank"
+          >
+            {{ eco.text }}
+          </a>
+        </v-row>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import WaveSurfer from 'wavesurfer.js';
-import MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone.min.js';
 
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String,
-    url: {
-      type: String,
-      required: true
-    }
-  },
-  data() {
-    return {
-      isRecording: false,
-      mediaRecorder: null,
-      wavesurfer: null,
-      chunks: [],
-    };
-  },
-  mounted() {
-  },
-  methods: {
-    start() {
-      const options = {
-        container: '#waveform',
-        waveColor: 'Black',
-        interact      : false,
-        barHeight: 5,
-        barWidth: 4,
-        barRadius: 2,
-        plugins: [
-          MicrophonePlugin.create()
-        ]
-      };
-      this.wavesurfer = WaveSurfer.create(options);
-      this.wavesurfer.microphone.on('deviceReady', function(stream) {
-        console.log('Device ready!', stream);
-      });
-      this.wavesurfer.microphone.on('deviceError', function(code) {
-        console.warn('Device error: ' + code);
-      });
-      // start the microphone
-      this.wavesurfer.microphone.start();
-    },
-    stop() {
-      //this.wavesurfer.microphone.stopDevice();
-      this.wavesurfer.destroy();
-    },
-    // 録音ボタン
-    record:async function() {
-      navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(stream => {
-          this.mediaRecorder = new MediaRecorder(stream);
-          this.mediaRecorder.start();
-          this.chunks = [];
 
-          this.mediaRecorder.addEventListener('dataavailable', event => {
-            this.chunks.push(event.data);
-            console.log("Push Event completed"); 
-          });
-
-          this.mediaRecorder.addEventListener('stop', () => {
-            const blob = new Blob(this.chunks, { type: 'audio/ogg; codecs=opus' });
-            this.createWaveform(blob);
-            //this.waveSurfer.loadBlob(blob); 
-          });
-
-          this.isRecording = true;
-        })
-        .catch(error => {
-          console.error(error);
-        });
-
-      // 2秒後に録音を停止する
-      setTimeout(() => {
-        this.stopRecording();
-      }, 2000);
-    },
-
-    // 録音の停止
-    async stopRecording() {
-      this.isRecording = false;
-      await this.mediaRecorder.stop();
-    },
-    // 録音データの波形表示
-    createWaveform(blob) {
-      const options = {
-        container: '#waveform',
-        waveColor: "Blue",
-        progressColor: "purple",
-        cursorColor: "navy",
-        barHeight: 5,
-        barWidth: 4,
-        barRadius: 2,
-        height: 200
-      };
-      this.wavesurfer = WaveSurfer.create(options);
-      this.wavesurfer.loadBlob(blob);
-      // 音声データをWaveSurferに渡して、波形を表示する
-      // this.wavesurfer.drawBuffer();
-      // 波形の描画が完了するまで待ってから表示する
-      //this.wavesurfer.on('ready', function () {
-        console.log(this.wavesurfer.backend.buffer); // Blobの中身が表示される
-      //  this.wavesurfer.play();
-      //});
-    },
-    // 削除ボタン
-    deldata(){
-
-    }
-  }
+  data: () => ({
+    ecosystem: [
+      {
+        text: 'vuetify-loader',
+        href: 'https://github.com/vuetifyjs/vuetify-loader/tree/next',
+      },
+      {
+        text: 'github',
+        href: 'https://github.com/vuetifyjs/vuetify/tree/next',
+      },
+      {
+        text: 'awesome-vuetify',
+        href: 'https://github.com/vuetifyjs/awesome-vuetify',
+      },
+    ],
+    importantLinks: [
+      {
+        text: 'Chat',
+        href: 'https://community.vuetifyjs.com',
+      },
+      {
+        text: 'Made with Vuetify',
+        href: 'https://madewithvuejs.com/vuetify',
+      },
+      {
+        text: 'Twitter',
+        href: 'https://twitter.com/vuetifyjs',
+      },
+      {
+        text: 'Articles',
+        href: 'https://medium.com/vuetify',
+      },
+    ],
+    whatsNext: [
+      {
+        text: 'Explore components',
+        href: 'https://vuetifyjs.com',
+      },
+      {
+        text: 'Roadmap',
+        href: 'https://vuetifyjs.com/introduction/roadmap/',
+      },
+      {
+        text: 'Frequently Asked Questions',
+        href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
+      },
+    ],
+  }),
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-#waveform {
-  height: 250px;
-}
-</style>
