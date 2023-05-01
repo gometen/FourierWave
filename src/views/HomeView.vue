@@ -2,7 +2,6 @@
   <div class="home">
     <DesignTest/>
   </div>
-
 </template>
 
 <script>

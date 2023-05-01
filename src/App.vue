@@ -1,29 +1,20 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-  </nav>
-  <router-view/>
+  <v-app>
+    <v-main>
+      <HomeView/>
+    </v-main>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import HomeView from '@/views/HomeView.vue'
+export default {
+  name: 'App',
+  components: {
+    HomeView,
+  },
+  data: () => ({
+    //
+  }),
 }
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+</script>

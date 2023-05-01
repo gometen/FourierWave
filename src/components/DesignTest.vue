@@ -17,16 +17,16 @@
       >
         <v-list>
           <router-link to="/fourierwave">
-            <v-list-item prepend-icon="mdi-view-dashboard" title="FourierWave" value="fourierwave"></v-list-item>
+            <v-list-item prepend-icon="mdi-waveform" title="FourierWave" value="fourierwave"></v-list-item>
           </router-link>
-          <v-list-item prepend-icon="mdi-forum" title="About" value="about"></v-list-item>
+          <router-link to="/about">
+            <v-list-item prepend-icon="mdi-waves" title="About" value="about"></v-list-item>
+          </router-link>
         </v-list>
       </v-navigation-drawer>
     
       <v-main>
-        <v-container>
-          Main Contents
-        </v-container>
+        <router-view/>
       </v-main>
     </v-app>
     </template>
