@@ -1,5 +1,4 @@
 <template>
-  <img alt="logo" src="./assets/logo.png">
   <HelloWorld/>
 </template>
 
