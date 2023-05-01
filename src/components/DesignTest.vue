@@ -16,7 +16,9 @@
         v-model="drawer"
       >
         <v-list>
-          <v-list-item prepend-icon="mdi-view-dashboard" title="Home" value="home"></v-list-item>
+          <router-link to="/fourierwave">
+            <v-list-item prepend-icon="mdi-view-dashboard" title="FourierWave" value="fourierwave"></v-list-item>
+          </router-link>
           <v-list-item prepend-icon="mdi-forum" title="About" value="about"></v-list-item>
         </v-list>
       </v-navigation-drawer>

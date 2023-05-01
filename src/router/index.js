@@ -1,11 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import FourierWave from '../components/FourierWave.vue'
 
 const routes = [
   {
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/fourierwave',
+    name: 'fourierwave',
+    component: FourierWave
   }
   //{
   //  path: '/about',
