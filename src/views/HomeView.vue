@@ -1,18 +1,21 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <DesignTest/>
   </div>
+
 </template>
 
 <script>
+// このファイルがトップページ
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import DesignTest from '@/components/DesignTest.vue'
 
 export default {
   name: 'HomeView',
+
+  // ここに各ページのコンポーネント入れる
   components: {
-    HelloWorld
+    DesignTest
   }
 }
 </script>

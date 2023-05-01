@@ -1,32 +1,38 @@
 <template>
     <v-app>
-      <!-- サイドメニュー -->
-      <v-navigation-drawer app clipped v-model="drawer" dark color="info">
-      </v-navigation-drawer>
-  
-      <!-- ヘッダー -->
-      <v-app-bar app clippedLeft flat dark color="indigo darken-3">
-        <v-app-bar-nav-icon @click.stop="drawer=!drawer"></v-app-bar-nav-icon>
+      <v-app-bar color="primary">
+    
+        <v-app-bar-nav-icon 
+          variant="text"
+          @click.stop="drawer = !drawer">
+        </v-app-bar-nav-icon>
+    
+        <v-app-bar-title>
+          Application
+        </v-app-bar-title>
       </v-app-bar>
-  
-      <!-- メイン -->
+    
+      <v-navigation-drawer
+        v-model="drawer"
+      >
+        <v-list>
+          <v-list-item prepend-icon="mdi-view-dashboard" title="Home" value="home"></v-list-item>
+          <v-list-item prepend-icon="mdi-forum" title="About" value="about"></v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+    
       <v-main>
-        <v-container fluid>
+        <v-container>
+          Main Contents
         </v-container>
       </v-main>
-  
-      <!-- フッター -->
-      <v-footer app color="primary">
-      </v-footer>
     </v-app>
-  </template>
-  <script>
+    </template>
+
+    <script>
     export default {
-      name: 'app',
-      data() {
-        return {
-          drawer: true
-        }
-      }
+      data: () => ({
+        drawer: null,
+      }),
     }
-  </script>
+    </script>
