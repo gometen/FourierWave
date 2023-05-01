@@ -1,17 +1,19 @@
 <template>
   <v-app>
+    <AppHeader/>
     <v-main>
-      <HomeView/>
+      <router-view/>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HomeView from '@/views/HomeView.vue'
+import AppHeader from './views/AppHeader.vue'
+
 export default {
   name: 'App',
   components: {
-    HomeView,
+    AppHeader,
   },
   data: () => ({
     //

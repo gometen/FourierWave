@@ -35,10 +35,10 @@
             waveColor: 'Black',
             interact      : false,
             barHeight: 5,
-            barWidth: 4,
-            barRadius: 2,
+            barWidth: 2,
+            barRadius: 1,
             plugins: [
-            MicrophonePlugin.create()
+              MicrophonePlugin.create()
             ]
         };
         this.wavesurfer = WaveSurfer.create(options);
@@ -94,8 +94,8 @@
             progressColor: "purple",
             cursorColor: "navy",
             barHeight: 5,
-            barWidth: 4,
-            barRadius: 2,
+            barWidth: 2,
+            barRadius: 1,
             height: 200
         };
         this.wavesurfer = WaveSurfer.create(options);

@@ -1,5 +1,5 @@
 <template>
     <div>
-      <h1>Vuetify for enterprise</h1>
+      <h1>About this page</h1>
     </div>
 </template>
