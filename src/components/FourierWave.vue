@@ -1,4 +1,5 @@
 <template>
+    <v-alert text="これはv-alertのコンポーネント"></v-alert>
     <button v-on:click="start">Start Display</button>
     <button v-on:click="stop">Stop Display</button>
     <button v-on:click="record">Start Recording</button>
