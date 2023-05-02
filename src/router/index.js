@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import FourierWave from '../components/FourierWave.vue'
+import FourierWaveMic from '../components/FourierWaveMic.vue'
+import FourierWaveRecord from '../components/FourierWaveRecord.vue'
+import TestPage from '../components/TestPage.vue'
 
 const routes = [
   {
@@ -9,9 +11,19 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/fourierwave',
-    name: 'fourierwave',
-    component: FourierWave
+    path: '/fourierwavemic',
+    name: 'fourierwavemic',
+    component: FourierWaveMic
+  },
+  {
+    path: '/fourierwaverecord',
+    name: 'fourierwaverecord',
+    component: FourierWaveRecord
+  },
+  {
+    path: '/testpage',
+    name: 'testpage',
+    component: TestPage
   },
   {
     path: '/about',

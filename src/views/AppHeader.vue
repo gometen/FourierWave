@@ -19,11 +19,17 @@
         <router-link to="/">
           <v-list-item prepend-icon="mdi-home-circle" title="Home" value="home"></v-list-item>
         </router-link>
-        <router-link to="/fourierwave">
-          <v-list-item prepend-icon="mdi-waveform" title="FourierWave" value="fourierwave"></v-list-item>
+        <router-link to="/fourierwavemic">
+          <v-list-item prepend-icon="mdi-waveform" title="FourierWaveMic" value="fourierwavemic"></v-list-item>
+        </router-link>
+        <router-link to="/fourierwaverecord">
+          <v-list-item prepend-icon="mdi-waves" title="FourierWaveRecord" value="fourierwaverecord"></v-list-item>
         </router-link>
         <router-link to="/about">
-          <v-list-item prepend-icon="mdi-waves" title="About" value="about"></v-list-item>
+          <v-list-item prepend-icon="mdi-information-outline" title="About" value="about"></v-list-item>
+        </router-link>
+        <router-link to="/testpage">
+          <v-list-item prepend-icon="mdi-test-tube" title="TestPage" value="testpage"></v-list-item>
         </router-link>
       </v-list>
     </v-navigation-drawer>
