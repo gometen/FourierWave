@@ -9,6 +9,7 @@
     <v-btn color="blue" variant="tonal" v-on:click="logButton">
       Keep Log</v-btn>Peak: <span ref="freq"></span>Hz
     <div ref="log"></div>
+    <div>基本周波数: <span ref="fdfreq"></span>Hz</div>
 </template>
   
 <script>
@@ -33,6 +34,7 @@
       this.canvas2.height = this.HEIGHT;
       this.log = this.$refs.log;
       this.freq = this.$refs.freq; 
+      this.fdfreq = this.$refs.fdfreq; 
     },
     data() {
         return {
@@ -44,6 +46,7 @@
           HEIGHT: 200,
           log: null,
           freq: null,
+          fdfreq: null,
           stream: null
         };
     },
@@ -118,41 +121,40 @@
             }
           }
 
-          //this.canvasCtx2.lineTo(this.WIDTH, this.HEIGHT);
-          //this.canvasCtx2.stroke();
-
           // ピーク周波数
           let hz = Math.round(peaki / bufferLength * 24000);
           this.freq.textContent = hz.toString();
-          /*
+  
           // 基本周波数
-          const bufferLength = analyser.frequencyBinCount;
-          const dataArray = new Float32Array(bufferLength);
-          analyser.getFloatFrequencyData(dataArray);
-
+          const dataArrayFlt = new Float32Array(bufferLength);
+          analyser.getFloatFrequencyData(dataArrayFlt);
           // 基本周波数を取得
-          const fundamentalFrequency = this.getFundamentalFrequency(dataArray, audioCtx.sampleRate);
-          console.log('Fundamental Frequency:', fundamentalFrequency, 'Hz');
-          */
+          const fundamentalFrequency = this.getFundamentalFrequency(dataArrayFlt, audioCtx.sampleRate);
+          if ( 0 != fundamentalFrequency ){
+            this.fdfreq.textContent = fundamentalFrequency.toString();
+          }
         },
         // 基本周波数を計算する関数
-        getFundamentalFrequency(dataArray, sampleRate) {
+        getFundamentalFrequency(dataArrayFlt, sampleRate) {
+          console.log('dataArrayFlt', dataArrayFlt);
           const threshold = -50; // ピークを検出するしきい値
-          const peaks = this.findPeaks(dataArray, threshold); // ピークを検出する
-          const sortedPeaks = this.sortPeaks(peaks, dataArray); // ピークをソートする
+          const peaks = this.findPeaks(dataArrayFlt, threshold); // ピークを検出する
+          console.log('peaks', peaks);
+          const sortedPeaks = this.sortPeaks(peaks, dataArrayFlt); // ピークをソートする
+          console.log('sortedPeaks', sortedPeaks);
           const pitch = this.findPitch(sortedPeaks, sampleRate); // 基本周波数を計算する
           return pitch;
         },
         // ピークを検出する関数
-        findPeaks(dataArray, threshold) {
+        findPeaks(dataArrayFlt, threshold) {
           const peaks = [];
           let isAboveThreshold = false;
 
-          for (let i = 0; i < dataArray.length; i++) {
-            if (dataArray[i] > threshold && !isAboveThreshold) {
+          for (let i = 0; i < dataArrayFlt.length; i++) {
+            if (dataArrayFlt[i] > threshold && !isAboveThreshold) {
               peaks.push(i);
               isAboveThreshold = true;
-            } else if (dataArray[i] < threshold && isAboveThreshold) {
+            } else if (dataArrayFlt[i] < threshold && isAboveThreshold) {
               isAboveThreshold = false;
             }
           }
@@ -160,8 +162,8 @@
           return peaks;
         },
         // ピークをソートする関数
-        sortPeaks(peaks, dataArray) {
-          return peaks.sort((a, b) => dataArray[b] - dataArray[a]);
+        sortPeaks(peaks, dataArrayFlt) {
+          return peaks.sort((a, b) => dataArrayFlt[b] - dataArrayFlt[a]);
         },
         // 基本周波数を計算する関数
         findPitch(sortedPeaks, sampleRate) {
