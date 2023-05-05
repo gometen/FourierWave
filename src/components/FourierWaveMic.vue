@@ -60,7 +60,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#waveform {
+#waveformmic {
   height: 400px;
 }
 </style>

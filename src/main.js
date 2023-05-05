@@ -17,6 +17,18 @@ const vuetify = createVuetify({
   icons: {
     iconfont: 'mdi', // 追加
   },
+  theme: {
+    light: true,
+    themes: {
+      light: {
+        primary: '#0078bd',
+        secondary: '#5fc8ce',
+        accent: '#ff6b6b',
+        error: '#b71c1c',
+        background: "#f5f5f5",
+      },
+    },
+  },
 })
 
 loadFonts()

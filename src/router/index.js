@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import FourierWaveMic from '../components/FourierWaveMic.vue'
 import FourierWaveRecord from '../components/FourierWaveRecord.vue'
 import TestPage from '../components/TestPage.vue'
+import AnalyzeSpectrum from '../components/AnalyzeSpectrum.vue'
+
 
 const routes = [
   {
@@ -19,6 +21,11 @@ const routes = [
     path: '/fourierwaverecord',
     name: 'fourierwaverecord',
     component: FourierWaveRecord
+  },
+  {
+    path: '/analyzespectrum',
+    name: 'analyzespectrum',
+    component: AnalyzeSpectrum
   },
   {
     path: '/testpage',
