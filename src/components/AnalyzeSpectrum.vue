@@ -61,7 +61,7 @@
           canvasCtx1: null,
           canvas2: null,
           canvasCtx2: null,
-          WIDTH: 500,
+          WIDTH: 600,
           HEIGHT: 200,
           log: null,
           freq: null,

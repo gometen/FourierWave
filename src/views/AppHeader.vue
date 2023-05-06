@@ -1,6 +1,6 @@
 <template>
   <header>
-      <v-app-bar color="#0078bd">
+      <v-app-bar color="primary">
         <v-app-bar-nav-icon 
           variant="text"
           @click.stop="drawer = !drawer">
@@ -15,7 +15,7 @@
     >
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title class="title grey--text text--darken-2">
+            <v-list-item-title class="title grey--text text--darken-2 text-h6">
               Menu
             </v-list-item-title>
           </v-list-item-content>
@@ -24,31 +24,28 @@
       <v-list>
         <v-list-item-group
           v-model="group"
+          :ripple="{ class: 'grey--text' }"
         >
-        <router-link class="routerLink" to="/">
-          <v-list-item prepend-icon="mdi-home-circle" 
-            title="Home" value="home"></v-list-item>
-        </router-link>
-        <router-link class="routerLink" to="/fourierwavemic">
-          <v-list-item rounded prepend-icon="mdi-waveform" 
-          title="FourierWaveMic" value="fourierwavemic"></v-list-item>
-        </router-link>
-        <router-link class="routerLink" to="/fourierwaverecord">
-          <v-list-item prepend-icon="mdi-waves" 
-            title="FourierWaveRecord" value="fourierwaverecord"></v-list-item>
-        </router-link>
-        <router-link class="routerLink" to="/about">
-          <v-list-item prepend-icon="mdi-information-outline"
-            title="About" value="about"></v-list-item>
-        </router-link>
-        <router-link class="routerLink" to="/analyzespectrum">
-          <v-list-item prepend-icon="mdi-sine-wave" 
-            title="スペクトル分析" value="analyzespectrum"></v-list-item>
-        </router-link>
-        <router-link class="routerLink" to="/testpage">
-          <v-list-item prepend-icon="mdi-test-tube" 
-            title="TestPage" value="testpage"></v-list-item>
-        </router-link>
+          <router-link class="routerLink" to="/">
+            <v-list-item rounded prepend-icon="mdi-home-circle" 
+              title="Home" value="home"></v-list-item>
+          </router-link>
+          <router-link class="routerLink" to="/fourierwavemic">
+            <v-list-item rounded prepend-icon="mdi-waveform" 
+            title="FourierWaveMic" value="fourierwavemic"></v-list-item>
+          </router-link>
+          <router-link class="routerLink" to="/fourierwaverecord">
+            <v-list-item prepend-icon="mdi-waves" 
+              title="FourierWaveRecord" value="fourierwaverecord"></v-list-item>
+          </router-link>
+          <router-link class="routerLink" to="/analyzespectrum">
+            <v-list-item prepend-icon="mdi-sine-wave" 
+              title="スペクトル分析" value="analyzespectrum"></v-list-item>
+          </router-link>
+          <router-link class="routerLink" to="/testpage">
+            <v-list-item prepend-icon="mdi-test-tube" 
+              title="TestPage" value="testpage"></v-list-item>
+          </router-link>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -66,5 +63,6 @@
 <style scoped>
   .routerLink{
      text-decoration: none;
+     color: #212121;
  }
 </style>
