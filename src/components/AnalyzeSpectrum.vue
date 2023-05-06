@@ -1,15 +1,34 @@
 <template>
-    <v-btn color="blue" variant="tonal" v-on:click="startAnalyze">Start Analyzing</v-btn>
-    <div>
-      <canvas ref="canvas1"></canvas>
-    </div>
-    <div>
-      <canvas ref="canvas2"></canvas>
-    </div>
-    <v-btn color="blue" variant="tonal" v-on:click="logButton">
-      Keep Log</v-btn>Peak: <span ref="freq"></span>Hz
-    <div ref="log"></div>
-    <div>基本周波数: <span ref="fdfreq"></span>Hz</div>
+    <v-container>
+      <v-row>
+        <v-col cols="2">
+          <v-btn color="indigo" v-on:click="startAnalyze" class="d-flex align-center">Start Analyzing</v-btn>
+        </v-col>
+      </v-row>
+      <v-row>
+        <div>
+          <canvas ref="canvas1"></canvas>
+        </div>
+      </v-row>
+      <v-row>
+        <div>
+          <canvas ref="canvas2"></canvas>
+        </div>
+      </v-row>
+      <v-row>
+        <v-col cols="2">
+          <v-btn color="blue" variant="tonal" v-on:click="logButton">
+          Keep Log</v-btn>
+        </v-col>
+        <v-col cols="6">
+          Peak: <span ref="freq"></span>Hz
+        <div ref="log"></div>
+        </v-col>
+      </v-row>
+      <v-row>
+        <div>基本周波数: <span ref="fdfreq"></span>Hz</div>
+      </v-row>
+    </v-container>
 </template>
   
 <script>

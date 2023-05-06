@@ -1,9 +1,21 @@
 <template>
-  <v-btn color="indigo" v-on:click="fwrecord">Start Recording</v-btn>
-  <v-btn color="indigo" v-on:click="fwdeldata">Delete Recording</v-btn>
-  <div>
-      <canvas ref="canvas1"></canvas>
-  </div>
+  <v-container>
+    <v-row>
+      <v-col cols="2">
+        <v-btn color="indigo" v-on:click="fwrecord" class="d-flex align-center">Start Recording</v-btn>
+      </v-col>
+      <v-col cols="2">
+        <v-btn color="indigo" v-on:click="fwdeldata" class="d-flex align-center">Delete Recording</v-btn>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <div>
+          <canvas ref="canvas1"></canvas>
+        </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
