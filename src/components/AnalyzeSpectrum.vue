@@ -159,7 +159,7 @@
         },
         // YINアルゴリズムの実装
         yin(dataArray) {
-          const threshold = 0.01;
+          const threshold = 0.1;
           const bufferSize = dataArray.length;
           const deltaYin = new Float32Array(bufferSize);
 
@@ -174,12 +174,17 @@
 
           let tauEstimate = 0;
           let minDiff = Infinity;
+          let maxDiff = 0; // 追加
           for (let tau = 1; tau < bufferSize; tau++) {
             if (deltaYin[tau] < threshold) {
               if (minDiff > deltaYin[tau]) {
                 minDiff = deltaYin[tau];
                 tauEstimate = tau;
               }
+            }
+            if (maxDiff < deltaYin[tau]) {
+              maxDiff = deltaYin[tau];
+              tauEstimate = tau;
             }
           }
 
