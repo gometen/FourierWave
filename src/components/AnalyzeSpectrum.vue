@@ -143,66 +143,47 @@
           // ピーク周波数
           let hz = Math.round(peaki / bufferLength * 24000);
           this.freq.textContent = hz.toString();
-  
-          // 基本周波数
-          const dataArrayFlt = new Float32Array(bufferLength);
-          analyser.getFloatFrequencyData(dataArrayFlt);
-          // 基本周波数を取得
-          const fundamentalFrequency = this.getFundamentalFrequency(dataArrayFlt, audioCtx.sampleRate);
-          if ( 0 != fundamentalFrequency ){
-            this.fdfreq.textContent = fundamentalFrequency.toString();
-          }
-        },
-        // 基本周波数を計算する関数
-        getFundamentalFrequency(dataArrayFlt, sampleRate) {
-          console.log('dataArrayFlt', dataArrayFlt);
-          const threshold = -50; // ピークを検出するしきい値
-          const peaks = this.findPeaks(dataArrayFlt, threshold); // ピークを検出する
-          console.log('peaks', peaks);
-          const sortedPeaks = this.sortPeaks(peaks, dataArrayFlt); // ピークをソートする
-          console.log('sortedPeaks', sortedPeaks);
-          const pitch = this.findPitch(sortedPeaks, sampleRate); // 基本周波数を計算する
-          return pitch;
-        },
-        // ピークを検出する関数
-        findPeaks(dataArrayFlt, threshold) {
-          const peaks = [];
-          let isAboveThreshold = false;
 
-          for (let i = 0; i < dataArrayFlt.length; i++) {
-            if (dataArrayFlt[i] > threshold && !isAboveThreshold) {
-              peaks.push(i);
-              isAboveThreshold = true;
-            } else if (dataArrayFlt[i] < threshold && isAboveThreshold) {
-              isAboveThreshold = false;
+          // 100msごとに基本周波数を推定
+          setInterval(this.estimatePitch, 100, dataArray); 
+        },
+        // 基本周波数を推定する関数
+        estimatePitch(dataArray) {
+            // YINアルゴリズムを適用して基本周波数を推定
+            const tauEstimate = this.yin(dataArray);
+            
+            const pitch = audioCtx.sampleRate / tauEstimate;
+            if(Infinity != pitch) {
+              this.fdfreq.textContent = pitch.toString();
             }
+        },
+        // YINアルゴリズムの実装
+        yin(dataArray) {
+          const threshold = 0.01;
+          const bufferSize = dataArray.length;
+          const deltaYin = new Float32Array(bufferSize);
+
+          for (let tau = 0; tau < bufferSize; tau++) {
+            let diff = 0;
+            for (let i = 0; i < bufferSize - tau; i++) {
+              const delta = dataArray[i] - dataArray[i + tau];
+              diff += delta * delta;
+            }
+            deltaYin[tau] = diff / (bufferSize - tau);
           }
 
-          return peaks;
-        },
-        // ピークをソートする関数
-        sortPeaks(peaks, dataArrayFlt) {
-          return peaks.sort((a, b) => dataArrayFlt[b] - dataArrayFlt[a]);
-        },
-        // 基本周波数を計算する関数
-        findPitch(sortedPeaks, sampleRate) {
-          const maxDiff = 0.25; // 隣り合うピーク間の最大周波数差
-          let fundamental = 0;
-
-          for (let i = 0; i < sortedPeaks.length; i++) {
-            const f1 = sortedPeaks[i] * sampleRate / analyser.fftSize;
-            for (let j = i + 1; j < sortedPeaks.length; j++) {
-              const f2 = sortedPeaks[j] * sampleRate / analyser.fftSize;
-              const diff = f2 - f1;
-              if (diff > maxDiff) {
-                break;
-              }
-              if (fundamental === 0 || diff < Math.abs(fundamental - f1)) {
-                fundamental = f1;
+          let tauEstimate = 0;
+          let minDiff = Infinity;
+          for (let tau = 1; tau < bufferSize; tau++) {
+            if (deltaYin[tau] < threshold) {
+              if (minDiff > deltaYin[tau]) {
+                minDiff = deltaYin[tau];
+                tauEstimate = tau;
               }
             }
           }
-          return fundamental;
+
+          return tauEstimate;
         },
         logButton() {
             this.log.textContent += " " + this.freq.textContent;
