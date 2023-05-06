@@ -1,7 +1,19 @@
 <template>
-    <v-btn color="blue" variant="tonal" v-on:click="fwrecord">Start Recording</v-btn>
-    <v-btn color="blue" variant="tonal" v-on:click="fwdeldata">Delete Recording</v-btn>
-    <div id="waveform"></div>
+    <v-container>
+        <v-row>
+            <v-col cols="2">
+                <v-btn color="indigo" v-on:click="fwrecord" class="d-flex align-center">Start Recording</v-btn>
+            </v-col>
+            <v-col cols="2">
+                <v-btn color="indigo" v-on:click="fwdeldata" class="d-flex align-center">Delete Recording</v-btn>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="12">
+                <div id="waveform"></div>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
@@ -61,13 +73,14 @@
             createWaveform(blob) {
             const options = {
                 container: '#waveform',
-                waveColor: "Blue",
+                backgroundColor: "black",
+                waveColor: "#F44336",
                 progressColor: "purple",
-                cursorColor: "navy",
+                cursorColor: "#F44336",
                 barHeight: 5,
                 barWidth: 2,
                 barRadius: 1,
-                height: 200
+                height: 400
             };
             this.wavesurfer = WaveSurfer.create(options);
             this.wavesurfer.loadBlob(blob);
@@ -90,6 +103,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #waveform {
-  height: 250px;
+  height: 400px;
 }
 </style>

@@ -12,6 +12,7 @@
   
     <v-navigation-drawer
       v-model="drawer"
+      color="#E8EAF6"
     >
         <v-list-item>
           <v-list-item-content>
@@ -28,22 +29,22 @@
         >
           <router-link class="routerLink" to="/">
             <v-list-item rounded prepend-icon="mdi-home-circle" 
-              title="Home" value="home"></v-list-item>
+              title="ホーム" value="home"></v-list-item>
           </router-link>
           <router-link class="routerLink" to="/fourierwavemic">
             <v-list-item rounded prepend-icon="mdi-waveform" 
-            title="FourierWaveMic" value="fourierwavemic"></v-list-item>
+            title="マイクの音を波にしてみよう" value="fourierwavemic"></v-list-item>
           </router-link>
           <router-link class="routerLink" to="/fourierwaverecord">
-            <v-list-item prepend-icon="mdi-waves" 
-              title="FourierWaveRecord" value="fourierwaverecord"></v-list-item>
+            <v-list-item rounded prepend-icon="mdi-waves" 
+              title="録音した音の波を見てみよう" value="fourierwaverecord"></v-list-item>
           </router-link>
           <router-link class="routerLink" to="/analyzespectrum">
-            <v-list-item prepend-icon="mdi-sine-wave" 
-              title="スペクトル分析" value="analyzespectrum"></v-list-item>
+            <v-list-item rounded prepend-icon="mdi-sine-wave" 
+              title="スペクトルをみてみよう" value="analyzespectrum"></v-list-item>
           </router-link>
           <router-link class="routerLink" to="/testpage">
-            <v-list-item prepend-icon="mdi-test-tube" 
+            <v-list-item rounded prepend-icon="mdi-test-tube" 
               title="TestPage" value="testpage"></v-list-item>
           </router-link>
         </v-list-item-group>
@@ -64,5 +65,6 @@
   .routerLink{
      text-decoration: none;
      color: #212121;
- }
+  }
+
 </style>

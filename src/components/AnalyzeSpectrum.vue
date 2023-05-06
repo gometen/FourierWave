@@ -17,7 +17,7 @@
       </v-row>
       <v-row>
         <v-col cols="2">
-          <v-btn color="blue" variant="tonal" v-on:click="logButton">
+          <v-btn color="indigo" v-on:click="logButton" class="d-flex align-center">
           Keep Log</v-btn>
         </v-col>
         <v-col cols="6">

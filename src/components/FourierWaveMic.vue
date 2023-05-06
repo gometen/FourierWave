@@ -1,7 +1,20 @@
 <template>
-    <v-btn color="blue" variant="tonal" v-on:click="start">Start Display</v-btn>
-    <v-btn color="blue" variant="tonal" v-on:click="stop">Stop Display</v-btn>
-    <div id="waveformmic"></div>
+    <v-container>
+        <v-row>
+            <v-col cols="2">
+                <v-btn color="indigo" v-on:click="start" class="d-flex align-center">Start Display</v-btn>
+            </v-col>
+            <v-col cols="2">
+                <v-btn color="indigo" v-on:click="stop" class="d-flex align-center">Stop Display</v-btn>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="12">
+                <div id="waveformmic"></div>
+            </v-col>
+        </v-row>
+    </v-container>
+    
 </template>
 
 <script>
