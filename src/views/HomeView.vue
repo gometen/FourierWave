@@ -9,7 +9,7 @@
             height="200"
           >
             <v-img
-              src="@/assets/construction-site.jpg"
+              :src="constimg"
             >
             </v-img>
             <v-card-title>このページについて</v-card-title>
@@ -62,9 +62,11 @@
 
 <script>
   export default {
-    data() {
-    }
+    data: () => ({
+      constimg: require('@/assets/construction-site.jpg')
+    })
   }
+  
 </script>
 
 <style scoped>
