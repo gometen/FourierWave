@@ -62,9 +62,11 @@
 
 <script>
   export default {
-    data: () => ({
-      constimg: require('@/assets/construction-site.jpg')
-    })
+    data() {
+      return {
+        constimg: require('@/assets/construction-site.jpg')
+      };
+    }
   }
   
 </script>
