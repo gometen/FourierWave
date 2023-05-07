@@ -6,10 +6,12 @@
           <v-card
             class="mx-auto align-end"
             max-width="800"
-            height="200"
           >
             <v-img
-              :src="constimg"
+              class="align-end"
+              height="200"
+              src="https://github.com/gometen/FourierWave/blob/main/public/images/engineering.jpg?raw=true"
+              cover
             >
             </v-img>
             <v-card-title>このページについて</v-card-title>
@@ -30,7 +32,7 @@
             <v-img
               class="align-end"
               height="200"
-              src="@/assets/construction-site.jpg"
+              src="https://github.com/gometen/FourierWave/blob/main/public/images/construction-site.jpg?raw=true"
               cover
             >
             </v-img>
@@ -64,7 +66,6 @@
   export default {
     data() {
       return {
-        constimg: require('@/assets/construction-site.jpg')
       };
     }
   }

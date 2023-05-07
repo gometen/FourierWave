@@ -1,6 +1,10 @@
 <template>
     <v-container>
         <v-row>
+            <v-col cols="12">ここに説明</v-col>
+        </v-row>
+        <v-divider></v-divider>
+        <v-row>
             <v-col cols="12" md="3" lg="3" xl="3">
                 <v-btn block color="indigo" v-on:click="fwrecord" class="d-flex align-center">Start Recording</v-btn>
             </v-col>
