@@ -181,8 +181,7 @@
                 minDiff = deltaYin[tau];
                 tauEstimate = tau;
               }
-            }
-            if (maxDiff < deltaYin[tau]) {
+            } else if (maxDiff < deltaYin[tau]) {
               maxDiff = deltaYin[tau];
               tauEstimate = tau;
             }

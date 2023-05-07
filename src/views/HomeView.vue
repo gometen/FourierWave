@@ -4,16 +4,11 @@
       <v-col cols="12">
         <div class="d-flex justify-center">
           <v-card
-            class="mx-auto"
+            class="mx-auto align-end"
             max-width="800"
+            img="require('@/assets/engineering.jpg')"
+            height="200"
           >
-          <v-img
-              class="align-end"
-              height="200"
-              src="img_engineering"
-              cover
-            >
-            </v-img>
             <v-card-title>このページについて</v-card-title>
             <v-card-text>
               マイクから入力した音声の波形やスペクトルを見ることが出来ます。
@@ -32,7 +27,7 @@
             <v-img
               class="align-end"
               height="200"
-              src="img_construction"
+              src="..//assets/construction-site.jpg"
               cover
             >
             </v-img>
@@ -66,8 +61,8 @@
   export default {
     data() {
       return {
-        img_engineering: require("@/assets/engineering.jpg").default,
-        img_construction: require('@/assets/construction-site.jpg'),
+        img_engineering: require("../assets/engineering.jpg").default,
+        img_construction: require('..//assets/construction-site.jpg').default,
       };
     }
   }
