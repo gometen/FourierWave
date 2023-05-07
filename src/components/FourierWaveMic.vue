@@ -1,9 +1,26 @@
 <template>
     <v-container>
         <v-row>
-            <v-col cols="12">ここに説明</v-col>
+            <v-col cols="12">
+                <div class="d-flex justify-center">
+                    <v-card
+                        class="mx-auto"
+                        max-width="600"
+                    >
+                        <v-card-title>
+                            録音した音声の波を見てみよう
+                        </v-card-title>
+                        <v-card-text>
+                            STARTボタンを押すと2秒間音声を録音します。押すたびに波形が増えていきます。
+                        </v-card-text>
+                        <v-card-text>
+                            DELETEボタンを押すと最後に録音した波形を削除します。全部削除したい場合はページを開きなおしてみてください。
+                        </v-card-text>
+                    </v-card>
+                </div>
+            </v-col>
+            <v-divider></v-divider>
         </v-row>
-        <v-divider></v-divider>
         <v-row>
             <v-col cols="2">
                 <v-btn color="indigo" v-on:click="start" class="d-flex align-center">Start Display</v-btn>
