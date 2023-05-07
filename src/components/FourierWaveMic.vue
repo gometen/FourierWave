@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-row>
-            <v-col cols="2">ここに説明</v-col>
+            <v-col cols="12">ここに説明</v-col>
         </v-row>
         <v-divider></v-divider>
         <v-row>
