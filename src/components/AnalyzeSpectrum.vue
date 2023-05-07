@@ -1,8 +1,11 @@
 <template>
     <v-container>
       <v-row>
-        <v-col cols="2">
-          <v-btn color="indigo" v-on:click="startAnalyze" class="d-flex align-center">Start Analyzing</v-btn>
+        <v-col cols="12" md="3" lg="3" xl="3">
+          <v-btn block color="indigo" v-on:click="startAnalyze" class="d-flex align-center">Start Analyzing</v-btn>
+        </v-col>
+        <v-col cols="12" md="3" lg="3" xl="3">
+          <v-btn block color="indigo" to="/" class="d-flex align-center">Home</v-btn>
         </v-col>
       </v-row>
       <v-row>
@@ -25,9 +28,6 @@
         <div ref="log"></div>
         </v-col>
       </v-row>
-      <v-row>
-        <div>基本周波数: <span ref="fdfreq"></span>Hz</div>
-      </v-row>
     </v-container>
 </template>
   
@@ -36,7 +36,7 @@
   const analyser = audioCtx.createAnalyser();
       
   //analyser.fftSize = 32768;
-  analyser.fftSize = 2048;
+  analyser.fftSize = 4096;
   var bufferLength = analyser.frequencyBinCount;
   var dataArray = new Uint8Array(bufferLength);
   export default {
@@ -68,6 +68,11 @@
           fdfreq: null,
           stream: null
         };
+    },
+    beforeRouteLeave(to, from, next) {
+      this.canvasCtx1.clearRect(0, 0, this.WIDTH, this.HEIGHT);
+      if (this.stream) this.stream=null;
+      next();
     },
     methods: {
         // 分析ボタン
@@ -141,61 +146,14 @@
           }
 
           // ピーク周波数
-          let hz = Math.round(peaki / bufferLength * 24000);
+          let hz = Math.round(peaki * audioCtx.sampleRate / dataArray.length);
           this.freq.textContent = hz.toString();
 
-          // 100msごとに基本周波数を推定
-          setInterval(this.estimatePitch, 100, dataArray); 
-        },
-        // 基本周波数を推定する関数
-        estimatePitch(dataArray) {
-            // YINアルゴリズムを適用して基本周波数を推定
-            const tauEstimate = this.yin(dataArray);
-            
-            const pitch = audioCtx.sampleRate / tauEstimate;
-            if(Infinity != pitch) {
-              this.fdfreq.textContent = pitch.toString();
-            }
-        },
-        // YINアルゴリズムの実装
-        yin(dataArray) {
-          const threshold = 0.1;
-          const bufferSize = dataArray.length;
-          const deltaYin = new Float32Array(bufferSize);
-
-          for (let tau = 0; tau < bufferSize; tau++) {
-            let diff = 0;
-            for (let i = 0; i < bufferSize - tau; i++) {
-              const delta = dataArray[i] - dataArray[i + tau];
-              diff += delta * delta;
-            }
-            deltaYin[tau] = diff / (bufferSize - tau);
-          }
-
-          let tauEstimate = 0;
-          let minDiff = Infinity;
-          let maxDiff = 0; // 追加
-          for (let tau = 1; tau < bufferSize; tau++) {
-            if (deltaYin[tau] < threshold) {
-              if (minDiff > deltaYin[tau]) {
-                minDiff = deltaYin[tau];
-                tauEstimate = tau;
-              }
-            } else if (maxDiff < deltaYin[tau]) {
-              maxDiff = deltaYin[tau];
-              tauEstimate = tau;
-            }
-          }
-
-          return tauEstimate;
         },
         logButton() {
             this.log.textContent += " " + this.freq.textContent;
           }
-        },
-        beforeRouteLeave(to, from, next) {
-          if (this.stream) this.stream=null;
-          next();
-        }
+      },
+
     }
  </script>
