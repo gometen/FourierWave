@@ -6,9 +6,12 @@
           <v-card
             class="mx-auto align-end"
             max-width="800"
-            img="require('@/assets/engineering.jpg')"
             height="200"
           >
+            <v-img
+              src="@/assets/construction-site.jpg"
+            >
+            </v-img>
             <v-card-title>このページについて</v-card-title>
             <v-card-text>
               マイクから入力した音声の波形やスペクトルを見ることが出来ます。
@@ -27,7 +30,7 @@
             <v-img
               class="align-end"
               height="200"
-              src="../assets/construction-site.jpg"
+              src="@/assets/construction-site.jpg"
               cover
             >
             </v-img>
