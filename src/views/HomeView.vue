@@ -10,7 +10,7 @@
           <v-img
               class="align-end"
               height="200"
-              src="@/assets/engineering.jpg"
+              src="img_engineering"
               cover
             >
             </v-img>
@@ -32,7 +32,7 @@
             <v-img
               class="align-end"
               height="200"
-              src="@/assets/construction-site.jpg"
+              src="img_construction"
               cover
             >
             </v-img>
@@ -63,6 +63,14 @@
 </template>
 
 <script>
+  export default {
+    data() {
+      return {
+        img_engineering: require("@/assets/engineering.jpg").default,
+        img_construction: require('@/assets/construction-site.jpg'),
+      };
+    }
+  }
 </script>
 
 <style scoped>

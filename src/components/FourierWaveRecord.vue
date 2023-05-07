@@ -1,10 +1,10 @@
 <template>
     <v-container>
         <v-row>
-            <v-col cols="2">
+            <v-col cols="12" md="2" lg="2" xl="2">
                 <v-btn color="indigo" v-on:click="fwrecord" class="d-flex align-center">Start Recording</v-btn>
             </v-col>
-            <v-col cols="2">
+            <v-col cols="12" md="2" lg="2" xl="2">
                 <v-btn color="indigo" v-on:click="fwdeldata" class="d-flex align-center">Delete Recording</v-btn>
             </v-col>
         </v-row>
