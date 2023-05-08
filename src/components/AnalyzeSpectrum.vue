@@ -19,6 +19,11 @@
         </div>
       </v-row>
       <v-row>
+        <div>
+          <canvas ref="canvas3"></canvas>
+        </div>
+      </v-row>
+      <v-row>
         <v-col cols="2">
           <v-btn color="indigo" v-on:click="logButton" class="d-flex align-center">
           Keep Log</v-btn>
@@ -34,6 +39,9 @@
 <script>
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const analyser = audioCtx.createAnalyser();
+  // 横軸の目盛りの設定
+  // サンプリング周波数48kHzの半分、24kHzのうち、8000Hzまでを表示する（バーの太さを6倍にしたため）
+  const tickValues = [0, 1000, 2000, 3000, 4000];
       
   //analyser.fftSize = 32768;
   analyser.fftSize = 4096;
@@ -54,6 +62,11 @@
       this.log = this.$refs.log;
       this.freq = this.$refs.freq; 
       this.fdfreq = this.$refs.fdfreq; 
+      // 描画領域3 目盛り領域
+      this.canvas3 = this.$refs.canvas3;
+      this.canvasCtx3 = this.canvas3.getContext("2d");
+      this.canvas3.width = this.WIDTH;
+      this.canvas3.height = this.HEIGHT2;
     },
     data() {
         return {
@@ -61,8 +74,9 @@
           canvasCtx1: null,
           canvas2: null,
           canvasCtx2: null,
-          WIDTH: 600,
+          WIDTH: 800,
           HEIGHT: 200,
+          HEIGHT2: 40,
           log: null,
           freq: null,
           fdfreq: null,
@@ -127,13 +141,28 @@
           let peak = 0;
           let peaki = 0;
 
-          const barWidth =  this.WIDTH / dataArray.length * 2.5;
+          // 目盛りを描画する
+          const tickWidth = this.WIDTH / (tickValues.length - 1);
+          this.canvasCtx3.fillStyle = 'black';
+          this.canvasCtx3.textAlign = 'center';
+          this.canvasCtx3.font = '10px Arial';
+          for (let i = 0; i < tickValues.length; i++) {
+            const tickX = i * tickWidth;
+            this.canvasCtx3.beginPath();
+            this.canvasCtx3.moveTo(tickX, this.HEIGHT2);
+            this.canvasCtx3.lineTo(tickX, this.HEIGHT2 - 10);
+            this.canvasCtx3.stroke();
+            this.canvasCtx3.fillText(`${tickValues[i]} Hz`, tickX, this.HEIGHT2 - 15);
+          }
+
+          const barWidth =  this.WIDTH / dataArray.length * 6;
           let barHeight;
           let x = 0;
 
           for (let i = 0; i < dataArray.length; i++) {
             barHeight = dataArray[i] / 2;
-            this.canvasCtx2.fillStyle = `rgb(${barHeight + 100}, 50, 50)`;
+            //this.canvasCtx2.fillStyle = `rgb(${barHeight + 100}, 50, 50)`;
+            this.canvasCtx2.fillStyle = `rgb(200, 50, 50)`;
             let v = dataArray[i] / 256.0;
             this.canvasCtx2.fillRect(x, this.HEIGHT - barHeight, barWidth, barHeight);
 
@@ -146,7 +175,8 @@
           }
 
           // ピーク周波数
-          let hz = Math.round(peaki * audioCtx.sampleRate / dataArray.length);
+          console.log(dataArray.length);
+          let hz = Math.round(peaki * audioCtx.sampleRate / dataArray.length); // 48000Hz
           this.freq.textContent = hz.toString();
 
         },

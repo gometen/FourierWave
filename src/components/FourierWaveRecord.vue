@@ -101,7 +101,7 @@
                 progressColor: "purple",
                 cursorColor: "#F44336",
                 barHeight: 5,
-                barWidth: 2,
+                barWidth: 1,
                 barRadius: 1,
                 height: 400,
                 plugins: [
@@ -118,6 +118,7 @@
             };
             this.wavesurfer = WaveSurfer.create(options);
             this.wavesurfer.loadBlob(blob);
+
             // 音声データをWaveSurferに渡して、波形を表示する
             // this.wavesurfer.drawBuffer();
             // 波形の描画が完了するまで待ってから表示する

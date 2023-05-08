@@ -106,6 +106,7 @@
             this.draw();
       },
       draw() {
+          // ★★ここの再帰呼び出しを無くせば一瞬だけの表示になるのでは？
           requestAnimationFrame(this.draw);
           this.draw1();
       //    this.draw2();
