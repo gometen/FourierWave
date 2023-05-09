@@ -17,21 +17,42 @@
         <div>
           <canvas ref="canvas2"></canvas>
         </div>
-      </v-row>
-      <v-row>
         <div>
           <canvas ref="canvas3"></canvas>
         </div>
       </v-row>
       <v-row>
-        <v-col cols="2">
-          <v-btn color="indigo" v-on:click="logButton" class="d-flex align-center">
+        <v-col cols="4">
+          <v-btn block color="indigo" v-on:click="logButton" class="d-flex align-center">
           Keep Log</v-btn>
         </v-col>
         <v-col cols="6">
           Peak: <span ref="freq"></span>Hz
         <div ref="log"></div>
         </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="4">
+          <v-btn block color="indigo" v-on:click="copyCanvas" class="d-flex align-center">
+          Copy</v-btn>
+        </v-col>
+        <v-col cols="6">
+          Peak: <span ref="cpfreq"></span>Hz
+        <div ref="cplog"></div>
+        </v-col>
+      </v-row>
+      <v-row>
+        <div>
+          <canvas ref="copycanvas1"></canvas>
+        </div>
+      </v-row>
+      <v-row>
+        <div>
+          <canvas ref="copycanvas2"></canvas>
+        </div>
+        <div>
+          <canvas ref="copycanvas3"></canvas>
+        </div>
       </v-row>
     </v-container>
 </template>
@@ -67,6 +88,9 @@
       this.canvasCtx3 = this.canvas3.getContext("2d");
       this.canvas3.width = this.WIDTH;
       this.canvas3.height = this.HEIGHT2;
+
+      // Copy先
+      this.cpfreq = this.$refs.cpfreq; 
     },
     data() {
         return {
@@ -149,10 +173,10 @@
           for (let i = 0; i < tickValues.length; i++) {
             const tickX = i * tickWidth;
             this.canvasCtx3.beginPath();
-            this.canvasCtx3.moveTo(tickX, this.HEIGHT2);
-            this.canvasCtx3.lineTo(tickX, this.HEIGHT2 - 10);
+            this.canvasCtx3.moveTo(tickX, this.HEIGHT2 - 5);
+            this.canvasCtx3.lineTo(tickX, this.HEIGHT2 - 15);
             this.canvasCtx3.stroke();
-            this.canvasCtx3.fillText(`${tickValues[i]} Hz`, tickX, this.HEIGHT2 - 15);
+            this.canvasCtx3.fillText(`${tickValues[i]} Hz`, tickX, this.HEIGHT2);
           }
 
           const barWidth =  this.WIDTH / dataArray.length * 6;
@@ -182,7 +206,28 @@
         },
         logButton() {
             this.log.textContent += " " + this.freq.textContent;
-          }
+        },
+        copyCanvas() {
+          const copyCanvas1 = this.$refs.copycanvas1;
+          const copyCanvas2 = this.$refs.copycanvas2;
+          const copyCanvas3 = this.$refs.copycanvas3;
+          copyCanvas1.width = this.WIDTH;
+          copyCanvas1.height = this.HEIGHT;
+          copyCanvas2.width = this.WIDTH;
+          copyCanvas2.height = this.HEIGHT;
+          copyCanvas3.width = this.WIDTH;
+          copyCanvas3.height = this.HEIGHT2;
+
+          const context1 = copyCanvas1.getContext("2d");
+          const context2 = copyCanvas2.getContext("2d");
+          const context3 = copyCanvas3.getContext("2d");
+
+          // キャンバスからスナップショットを取得して、コピー先のキャンバスに描画する
+          context1.drawImage(this.canvas1, 0, 0);
+          context2.drawImage(this.canvas2, 0, 0);
+          context3.drawImage(this.canvas3, 0, 0);
+          this.cpfreq.textContent = this.freq.textContent; // Peak周波数のコピー
+        },
       },
 
     }
