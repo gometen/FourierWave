@@ -1,8 +1,28 @@
 <template>
     <v-container>
       <v-row>
+            <v-col cols="12">
+                <div class="d-flex justify-center">
+                    <v-card
+                        class="mx-auto"
+                        max-width="600"
+                    >
+                        <v-card-title>
+                            音を構成する要素を見てみよう。
+                        </v-card-title>
+                        <v-card-text>
+                            どの周波数がどのくらいの強さで含まれているか分かります。
+                            STARTボタンを押すとマイクの音から波と周波数を表示してくれます。
+                            COPYボタンを押すと押した瞬間の画像をボタンの下にコピーしてくれます。
+                        </v-card-text>
+                    </v-card>
+                </div>
+            </v-col>
+            <v-divider></v-divider>
+        </v-row>
+      <v-row>
         <v-col cols="12" md="3" lg="3" xl="3">
-          <v-btn block color="indigo" v-on:click="startAnalyze" class="d-flex align-center">Start Analyzing</v-btn>
+          <v-btn block color="indigo" v-on:click="startAnalyze" class="d-flex align-center">Start</v-btn>
         </v-col>
         <v-col cols="12" md="3" lg="3" xl="3">
           <v-btn block color="indigo" to="/" class="d-flex align-center">Home</v-btn>
