@@ -40,8 +40,12 @@
               title="録音した音の波を見てみよう" value="fourierwaverecord"></v-list-item>
           </router-link>
           <router-link class="routerLink" to="/analyzespectrum">
-            <v-list-item rounded prepend-icon="mdi-sine-wave" 
+            <v-list-item rounded prepend-icon="mdi-chart-bar" 
               title="スペクトルをみてみよう" value="analyzespectrum"></v-list-item>
+          </router-link>
+          <router-link class="routerLink" to="/makewave">
+            <v-list-item rounded prepend-icon="mdi-sine-wave" 
+              title="波を作ってみよう" value="MakeWave"></v-list-item>
           </router-link>
           <router-link class="routerLink" to="/testpage">
             <v-list-item rounded prepend-icon="mdi-test-tube" 
