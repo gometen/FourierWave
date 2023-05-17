@@ -22,10 +22,10 @@
         </v-row>
       <v-row>
         <v-col cols="12" md="3" lg="3" xl="3">
-          <v-btn block color="indigo" v-on:click="startAnalyze" class="d-flex align-center">Start</v-btn>
+          <v-btn prepend-icon="mdi-play-box-outline" block color="indigo" v-on:click="startAnalyze" class="d-flex align-center">Start</v-btn>
         </v-col>
         <v-col cols="12" md="3" lg="3" xl="3">
-          <v-btn block color="indigo" to="/" class="d-flex align-center">Home</v-btn>
+          <v-btn prepend-icon="mdi-home-outline" block color="indigo" to="/" class="d-flex align-center">Home</v-btn>
         </v-col>
       </v-row>
       <v-row>
@@ -199,14 +199,16 @@
             this.canvasCtx3.fillText(`${tickValues[i]} Hz`, tickX, this.HEIGHT2);
           }
 
-          const barWidth =  this.WIDTH / dataArray.length * 6;
+          const barWidth =  this.WIDTH / dataArray.length * 6; // 6分の1だけ表示する
           let barHeight;
           let x = 0;
 
           for (let i = 0; i < dataArray.length; i++) {
             barHeight = dataArray[i] / 2;
             //this.canvasCtx2.fillStyle = `rgb(${barHeight + 100}, 50, 50)`;
-            this.canvasCtx2.fillStyle = `rgb(200, 50, 50)`;
+            const hue = i / dataArray.length * 360 * 6; // 色相を計算
+            this.canvasCtx2.fillStyle = `hsl(${hue}, 50%, 80%)`; // パステルカラーにする
+            //this.canvasCtx2.fillStyle = `rgb(200, 50, 50)`;
             let v = dataArray[i] / 256.0;
             this.canvasCtx2.fillRect(x, this.HEIGHT - barHeight, barWidth, barHeight);
 

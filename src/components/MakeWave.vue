@@ -23,7 +23,7 @@
     </v-row>
     <v-row>
       <v-col cols="12" md="3" lg="3" xl="3">
-        <v-btn block color="indigo" v-on:click="startDisplay" class="d-flex align-center">Start</v-btn>
+        <v-btn prepend-icon="mdi-television-play" block color="indigo" v-on:click="startDisplay" class="d-flex align-center">Start</v-btn>
       </v-col>
       <v-col cols="12" md="3" lg="3" xl="3">
         <v-text-field v-model="inputFreq" 

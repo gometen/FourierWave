@@ -23,10 +23,10 @@
         </v-row>
         <v-row>
             <v-col cols="12" md="3" lg="3" xl="3">
-                <v-btn block color="indigo" v-on:click="start" class="d-flex align-center">Start Display</v-btn>
+                <v-btn prepend-icon="mdi-play-circle-outline" block color="indigo" v-on:click="start" class="d-flex align-center">Start Display</v-btn>
             </v-col>
             <v-col cols="12" md="3" lg="3" xl="3">
-                <v-btn block color="indigo" v-on:click="stop" class="d-flex align-center">Stop Display</v-btn>
+                <v-btn prepend-icon="mdi-stop-circle-outline" block color="indigo" v-on:click="stop" class="d-flex align-center">Stop Display</v-btn>
             </v-col>
         </v-row>
         <v-row>

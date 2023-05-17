@@ -23,10 +23,10 @@
         </v-row>
         <v-row>
             <v-col cols="12" md="3" lg="3" xl="3">
-                <v-btn block color="indigo" v-on:click="fwrecord" class="d-flex align-center">Start Recording</v-btn>
+                <v-btn prepend-icon="mdi-record-circle-outline" block color="indigo" v-on:click="fwrecord" class="d-flex align-center">Start Recording</v-btn>
             </v-col>
             <v-col cols="12" md="3" lg="3" xl="3">
-                <v-btn block color="indigo" v-on:click="fwdeldata" class="d-flex align-center">Delete Recording</v-btn>
+                <v-btn prepend-icon="mdi-delete-circle-outline" block color="indigo" v-on:click="fwdeldata" class="d-flex align-center">Delete Recording</v-btn>
             </v-col>
         </v-row>
         <v-row>
