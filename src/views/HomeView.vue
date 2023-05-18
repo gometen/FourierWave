@@ -18,6 +18,9 @@
             <v-card-text>
               マイクから入力した音声の波形やスペクトルを見ることが出来ます。
             </v-card-text>
+            <v-card-actions>
+              <v-btn prepend-icon="mdi-waveform" block variant="outlined" to="/fourierwavemic" class="d-flex align-center">Let's get started!</v-btn>
+            </v-card-actions>
           </v-card>
         </div>
       </v-col>
@@ -53,7 +56,7 @@
               </v-row>
             </v-card-title>
             <v-card-text>
-              このページは開発中のため、不備があるかもしれませんが、ご了承ください。そのため、急に機能が変更になることがあります。
+              このページは開発中のため、不備があるかもしれませんが、ご了承ください。また、急に機能が変更になることがあります。
             </v-card-text>
           </v-card>
         </div>

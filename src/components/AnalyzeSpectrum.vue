@@ -43,7 +43,7 @@
       </v-row>
       <v-row>
         <v-col cols="4">
-          <v-btn block color="indigo" v-on:click="logButton" class="d-flex align-center">
+          <v-btn prepend-icon="mdi-pin-outline" block color="indigo" v-on:click="logButton" class="d-flex align-center">
           Keep Log</v-btn>
         </v-col>
         <v-col cols="6">
@@ -53,7 +53,7 @@
       </v-row>
       <v-row>
         <v-col cols="4">
-          <v-btn block color="indigo" v-on:click="copyCanvas" class="d-flex align-center">
+          <v-btn prepend-icon="mdi-content-copy" block color="indigo" v-on:click="copyCanvas" class="d-flex align-center">
           Copy</v-btn>
         </v-col>
         <v-col cols="6">

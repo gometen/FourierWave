@@ -23,7 +23,7 @@
         </v-row>
         <v-row>
             <v-col cols="12" md="3" lg="3" xl="3">
-                <v-btn prepend-icon="mdi-record-circle-outline" block color="indigo" v-on:click="fwrecord" class="d-flex align-center">Start Recording</v-btn>
+                <v-btn prepend-icon="mdi-record-circle-outline" :loading="loading" block color="indigo" v-on:click="fwrecord" class="d-flex align-center">Start Recording</v-btn>
             </v-col>
             <v-col cols="12" md="3" lg="3" xl="3">
                 <v-btn prepend-icon="mdi-delete-circle-outline" block color="indigo" v-on:click="fwdeldata" class="d-flex align-center">Delete Recording</v-btn>
@@ -56,6 +56,7 @@
         mediaRecorder: null,
         wavesurfer: null,
         chunks: [],
+        loading:false,
         };
     },
     mounted() {
@@ -63,27 +64,29 @@
     methods: {
         // 録音ボタン
         fwrecord:async function() {
-        navigator.mediaDevices.getUserMedia({ audio: true })
+            this.loading = true;
+            navigator.mediaDevices.getUserMedia({ audio: true })
             .then(stream => {
-            this.mediaRecorder = new MediaRecorder(stream);
-            this.mediaRecorder.start();
-            this.chunks = [];
-            this.mediaRecorder.addEventListener('dataavailable', event => {
-                this.chunks.push(event.data);
-                console.log("Push Event completed"); 
-            });
-            this.mediaRecorder.addEventListener('stop', () => {
-                const blob = new Blob(this.chunks, { type: 'audio/ogg; codecs=opus' });
-                this.createWaveform(blob);
-                //this.waveSurfer.loadBlob(blob); 
-            });
-            this.isRecording = true;
+                this.mediaRecorder = new MediaRecorder(stream);
+                this.mediaRecorder.start();
+                this.chunks = [];
+                this.mediaRecorder.addEventListener('dataavailable', event => {
+                    this.chunks.push(event.data);
+                    console.log("Push Event completed"); 
+                });
+                this.mediaRecorder.addEventListener('stop', () => {
+                    const blob = new Blob(this.chunks, { type: 'audio/ogg; codecs=opus' });
+                    this.createWaveform(blob);
+                    //this.waveSurfer.loadBlob(blob); 
+                });
+                this.isRecording = true;
             })
             .catch(error => {
             console.error(error);
             });
             // 2秒後に録音を停止する
             setTimeout(() => {
+                this.loading = false;
                 this.stopRecording();
             }, 2000);
             },
