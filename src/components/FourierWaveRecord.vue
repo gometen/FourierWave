@@ -100,9 +100,9 @@
             const options = {
                 container: '#waveform',
                 backgroundColor: "black",
-                waveColor: "#F44336",
+                waveColor: "#FFACFC",
                 progressColor: "purple",
-                cursorColor: "#F44336",
+                cursorColor: "#FFACFC",
                 barHeight: 5,
                 barWidth: 1,
                 barRadius: 1,

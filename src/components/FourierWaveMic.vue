@@ -37,9 +37,9 @@
         </v-row>
     </v-container>
     
-</template>
-
-<script>
+  </template>
+  
+  <script>
     import WaveSurfer from 'wavesurfer.js';
     import MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone.min.js';
     import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline.min.js';
@@ -67,11 +67,11 @@
             const options = {
                 container: '#waveformmic',
                 backgroundColor: "black",
-                waveColor: "#F44336",
+                waveColor: "#FFACFC",
                 interact      : false,
-                barHeight: 5,
-                barWidth: 2,
-                barRadius: 1,
+                barHeight: 1,
+                barWidth: 1,
+                barRadius: 2,
                 height: 400,
                 plugins: [
                   MicrophonePlugin.create(),
@@ -106,14 +106,14 @@
                     const minutes = Math.floor(time / 60);
                     const seconds = Math.floor(time % 60);
                     const milliseconds = Math.floor((time % 1) * 1000);
-
+  
                     // フォーマットを指定して時間を表示する
                     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(3, '0')}`;
                 /*
                 seconds = Number(seconds);
                 var minutes = Math.floor(seconds / 60);
                 seconds = seconds % 60;
-
+  
                 // fill up seconds with zeroes
                 var secondsStr = Math.round(seconds).toString();
                 if (pxPerSec >= 25 * 10) {
@@ -121,7 +121,7 @@
                 } else if (pxPerSec >= 25 * 1) {
                     secondsStr = seconds.toFixed(1);
                 }
-
+  
                 if (minutes > 0) {
                     if (seconds < 10) {
                         secondsStr = '0' + secondsStr;
@@ -179,11 +179,11 @@
             }            
         }
     }
-</script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-#waveformmic {
+  </script>
+  
+  <!-- Add "scoped" attribute to limit CSS to this component only -->
+  <style scoped>
+  #waveformmic {
   height: 400px;
-}
-</style>
+  }
+  </style>

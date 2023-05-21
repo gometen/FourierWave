@@ -42,10 +42,6 @@
         </div>
       </v-row>
       <v-row>
-        <v-col cols="4">
-          <v-btn prepend-icon="mdi-pin-outline" block color="indigo" v-on:click="logButton" class="d-flex align-center">
-          Keep Log</v-btn>
-        </v-col>
         <v-col cols="6">
           Peak: <span ref="freq"></span>Hz
         <div ref="log"></div>
