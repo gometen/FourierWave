@@ -19,7 +19,51 @@
               マイクから入力した音声の波形やスペクトルを見ることが出来ます。
             </v-card-text>
             <v-card-actions>
-              <v-btn prepend-icon="mdi-waveform" block variant="outlined" to="/fourierwavemic" class="d-flex align-center">Let's get started!</v-btn>
+              <v-menu
+                transition="scale-transition"
+              >
+                <template v-slot:activator="{ props }">
+                  <v-btn
+                    v-bind="props"
+                    block variant="outlined"
+                    class="d-flex align-center"
+                  >
+                    Let's get started!
+                  </v-btn>
+                </template>
+
+                <v-list>
+                  <v-list-item-group
+                    v-model="group"
+                    :ripple="{ class: 'grey--text' }"
+                  >
+                    <router-link class="routerLink" to="/">
+                      <v-list-item rounded prepend-icon="mdi-home-circle" 
+                        title="ホーム" value="home"></v-list-item>
+                    </router-link>
+                    <router-link class="routerLink" to="/fourierwavemic">
+                      <v-list-item rounded prepend-icon="mdi-waveform" 
+                      title="マイクの音を波にしてみよう" value="fourierwavemic"></v-list-item>
+                    </router-link>
+                    <router-link class="routerLink" to="/fourierwaverecord">
+                      <v-list-item rounded prepend-icon="mdi-waves" 
+                        title="録音した音の波を見てみよう" value="fourierwaverecord"></v-list-item>
+                    </router-link>
+                    <router-link class="routerLink" to="/analyzespectrum">
+                      <v-list-item rounded prepend-icon="mdi-chart-bar" 
+                        title="スペクトルをみてみよう" value="analyzespectrum"></v-list-item>
+                    </router-link>
+                    <router-link class="routerLink" to="/makewave">
+                      <v-list-item rounded prepend-icon="mdi-sine-wave" 
+                        title="波を作ってみよう" value="MakeWave"></v-list-item>
+                    </router-link>
+                    <router-link class="routerLink" to="/testpage">
+                      <v-list-item rounded prepend-icon="mdi-test-tube" 
+                        title="TestPage" value="testpage"></v-list-item>
+                    </router-link>
+                  </v-list-item-group>
+                </v-list>
+              </v-menu>
             </v-card-actions>
           </v-card>
         </div>
@@ -78,5 +122,9 @@
 <style scoped>
   .text-color{
      color: #FCE4EC;
+  }
+  .routerLink{
+     text-decoration: none;
+     color: #212121;
   }
 </style>
