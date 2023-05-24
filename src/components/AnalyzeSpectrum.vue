@@ -25,7 +25,12 @@
         <v-btn prepend-icon="mdi-play-box-outline" block color="indigo" v-on:click="startAnalyze" class="d-flex align-center">Start</v-btn>
       </v-col>
       <v-col cols="12" md="3" lg="3" xl="3">
-        <v-btn prepend-icon="mdi-home-outline" block color="indigo" to="/" class="d-flex align-center">Home</v-btn>
+        <v-btn prepend-icon="mdi-content-copy" block color="indigo" v-on:click="copyCanvas" class="d-flex align-center">
+        Copy</v-btn>
+      </v-col>
+      <v-col cols="12" md="3" lg="3" xl="3">
+        Peak: <span ref="freq"></span>Hz
+      <div ref="log"></div>
       </v-col>
     </v-row>
     <v-row>
@@ -42,16 +47,9 @@
       </div>
     </v-row>
     <v-row>
-      <v-col cols="6">
-        Peak: <span ref="freq"></span>Hz
-      <div ref="log"></div>
-      </v-col>
+        <v-divider></v-divider>
     </v-row>
     <v-row>
-      <v-col cols="4">
-        <v-btn prepend-icon="mdi-content-copy" block color="indigo" v-on:click="copyCanvas" class="d-flex align-center">
-        Copy</v-btn>
-      </v-col>
       <v-col cols="6">
         Peak: <span ref="cpfreq"></span>Hz
       <div ref="cplog"></div>
