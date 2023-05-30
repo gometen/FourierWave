@@ -82,6 +82,8 @@ const tickValues = [0, 1000, 2000, 3000, 4000];
 analyser.fftSize = 4096;
 var bufferLength = analyser.frequencyBinCount;
 var dataArray = new Uint8Array(bufferLength);
+const bufferLengthF = analyser.fftSize;
+const dataArrayF = new Float32Array(bufferLengthF);
 export default {
   mounted() {
     // 描画領域1
@@ -141,7 +143,7 @@ export default {
             // lowpass
             let lowpass = audioCtx.createBiquadFilter();
             lowpass.type = (typeof lowpass.type === 'string') ? 'lowpass' : 0;
-            lowpass.frequency.value = 8000;
+            lowpass.frequency.value = 12000;
             lowpass.Q.value = 0.2;
             mic.connect(lowpass);
 
@@ -172,10 +174,10 @@ export default {
             // 周波数設定
             bass.frequency.value = 250;
             middle1.frequency.value = 600;
-            middle2.frequency.value = 1000;
-            treble1.frequency.value = 1800;
-            treble2.frequency.value = 4000;
-            treble3.frequency.value = 6000;
+            middle2.frequency.value = 4000;
+            treble1.frequency.value = 6000;
+            treble2.frequency.value = 8000;
+            treble3.frequency.value = 10000;
 
             // Set Q (Quality Factor)
             middle1.Q.value = Math.SQRT1_2;
@@ -184,10 +186,10 @@ export default {
             // Initialize Gain
             bass.gain.value = 5;
             middle1.gain.value = 1;
-            middle2.gain.value = -2;
-            treble1.gain.value = -8;
-            treble2.gain.value = -14;
-            treble3.gain.value = -26;
+            middle2.gain.value = -1;
+            treble1.gain.value = -4;
+            treble2.gain.value = -6;
+            treble3.gain.value = -10;
 
             highpass.connect(bass);
             bass.connect(middle1);
@@ -210,11 +212,14 @@ export default {
       },
       draw1() {
         analyser.getByteTimeDomainData(dataArray);
+        analyser.getFloatTimeDomainData(dataArrayF);
         this.canvasCtx1.fillStyle = "rgb(0, 0, 0)";
         this.canvasCtx1.fillRect(0, 0, this.WIDTH, this.HEIGHT);
         this.canvasCtx1.lineWidth = 2;
         this.canvasCtx1.strokeStyle = "rgb(200, 50, 50)";
         this.canvasCtx1.beginPath();
+        /*
+        // Integer版
         let sliceWidth = (this.WIDTH * 1.0) / bufferLength;
         for (let i = 0; i < bufferLength; i++) {
           let v = dataArray[i] / 128.0;
@@ -225,6 +230,21 @@ export default {
           } else {
             this.canvasCtx1.lineTo(x, y);
           }
+        }
+        */
+        // Float版
+        let sliceWidth = (this.WIDTH * 1.0) / bufferLengthF;
+        let x = 0;
+        for (let i = 0; i < bufferLengthF; i++) {
+          let v = dataArrayF[i] * 200.0;
+          
+          let y = this.HEIGHT / 2 + v;
+          if (i === 0) {
+            this.canvasCtx1.moveTo(x, y);
+          } else {
+            this.canvasCtx1.lineTo(x, y);
+          }
+          x += sliceWidth;
         }
         this.canvasCtx1.lineTo(this.WIDTH, this.HEIGHT / 2);
         this.canvasCtx1.stroke();
