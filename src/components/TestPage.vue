@@ -65,6 +65,8 @@ export default {
 
     // 初期値設定
     position = this.canvas.height / 2; // 初期位置（画面の中央）
+
+
     
   },
   data() {
@@ -153,7 +155,7 @@ export default {
       if (this.data.labels.length < 500) { // 500回まで更新する場合
         setTimeout(this.animate, 10);
       }else{
-          this.createChart();
+        this.createChart();
       }
     },
     start() {
@@ -165,7 +167,7 @@ export default {
       this.data.datasets[0].data = [];
       this.data.datasets[1].data = [];
       this.data.datasets[2].data = [];
-      console.log(this.data.labels.length);
+      
 
       // アニメーションの開始
       this.animate();
@@ -178,6 +180,18 @@ export default {
         data: this.data,
         options: this.options,
       });
+    },
+
+    updateData(){
+      this.lineChart.data.datasets[0].data = this.data.datasets[0].data;
+      this.lineChart.data.datasets[1].data = this.data.datasets[1].data;
+      this.lineChart.data.datasets[2].data = this.data.datasets[2].data;
+
+      console.log(this.lineChart.data.datasets[0].data);
+      console.log(this.lineChart.data.datasets[1].data);
+      console.log(this.lineChart.data.datasets[2].data);
+
+      this.lineChart.update(); // グラフの更新
     }
   }
 }
