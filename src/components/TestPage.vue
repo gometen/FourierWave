@@ -33,26 +33,25 @@
         <canvas ref="canvas1"></canvas>
       </div>
     </v-row>
+    <v-row>
+      <v-col cols="12">
+        <div>
+          <canvas id="myChart">"</canvas>
+        </div>
+    </v-col>
+    </v-row>
 
   </v-container>
 </template>
 
 <script>
+  import Chart from 'chart.js/auto';
+
   // 物体の初期状態を設定
   var position = 0; // 初期位置
-  var velocity = 0; // 初期速度
-  var acceleration = 0; // 初期加速度
   var amplitude = 100; // 上下の振幅（ピクセル）
 
-  var timeData = []; // 時間データの配列
-  var velocityData = []; // 速度データの配列
-  var accelerationData = []; // 加速度データの配列
-
-  // アニメーションの設定
-  var simulationTime = 10; // シミュレーションの継続時間（秒）
-  var timeStep = 0.1; // 時間ステップ（秒）
   var startTime = null;
-  var currentTime = 0;
 
 export default {
   mounted() {
@@ -62,14 +61,59 @@ export default {
     this.canvas.height = 400;
     this.canvasCtx1 = this.canvas.getContext("2d");
 
+    this.canvasCtxChart = document.getElementById('myChart').getContext('2d');
+
     // 初期値設定
     position = this.canvas.height / 2; // 初期位置（画面の中央）
+    
   },
   data() {
     return {
       datacollection: null,
       canvas: null,
       canvasCtx1: null,
+      canvasCtxChart: null,
+      lineChart: null,
+      data: {
+        labels: [], // X軸のラベル
+        datasets: [
+          {
+            label: '位置',
+            data: [], // 位置データ
+            borderColor: '#3F51B5',
+            fill: false,
+          },
+          {
+            label: '速度',
+            data: [], // 速度データ
+            borderColor: '#009688',
+            fill: false,
+          },
+          {
+            label: '加速度',
+            data: [], // 加速度データ
+            borderColor: '#FF5722',
+            fill: false,
+          },
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: '時間',
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: '値',
+            },
+          },
+        },
+      }
     };
   },
   methods: {
@@ -77,20 +121,20 @@ export default {
     animate() {
       if (!startTime) startTime = Date.now(); // 最初のタイムスタンプを保存
       var elapsedTime = (Date.now() - startTime) / 1000; // 経過時間（秒）
-      
-      // 速度を更新
-      velocity = this.calculateVelocity(elapsedTime);
-      acceleration = this.calculateAcceleration(elapsedTime);
 
-      // データポイントの追加
-      timeData.push(currentTime);
-      velocityData.push(velocity);
-      accelerationData.push(acceleration);
+      // データを更新
+      const cPosition = Math.sin(2 * elapsedTime); // 位置の計算（サイン波）
+      const velocity = Math.cos(2 * elapsedTime); // 速度の計算（コサイン波）
+      const acceleration = -Math.sin(2 * elapsedTime); // 加速度の計算（マイナスのサイン波）
 
-      currentTime += timeStep;
+      // データを追加
+      this.data.labels.push(elapsedTime);
+      this.data.datasets[0].data.push(cPosition);
+      this.data.datasets[1].data.push(velocity);
+      this.data.datasets[2].data.push(acceleration);
 
       // 上下の振動を計算
-      var y = position + amplitude * this.calculatePosition(elapsedTime);
+      var y = position + amplitude * cPosition;
       
       // Canvasをクリア
       this.canvasCtx1.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -104,41 +148,40 @@ export default {
       //this.canvasCtx1.arc(this.canvas.width / 2, this.canvas.height / 2 - position, 10, 0, 2 * Math.PI);
       this.canvasCtx1.arc(this.canvas.width / 2, y, 10, 0, 2 * Math.PI);
       this.canvasCtx1.stroke();
-   
-      // アニメーションの再帰呼び出し
-      if (elapsedTime <= simulationTime) {
-        requestAnimationFrame(this.animate);
+
+      // 一定時間ごとにデータを更新
+      if (this.data.labels.length < 500) { // 500回まで更新する場合
+        setTimeout(this.animate, 10);
+      }else{
+          this.createChart();
       }
     },
     start() {
+      // 時間初期化
+      startTime = null;
+
+      // データを初期化
+      this.data.labels = [];
+      this.data.datasets[0].data = [];
+      this.data.datasets[1].data = [];
+      this.data.datasets[2].data = [];
+      console.log(this.data.labels.length);
+
       // アニメーションの開始
       this.animate();
     },
-    // 位置の計算
-    calculatePosition(time) {
-      return Math.sin(2*time);
-    },
-
-    // 速度の計算
-    calculateVelocity(time) {
-      return Math.cos(2*time);
-    },
-
-    // 加速度の計算
-    calculateAcceleration(time) {
-      return Math.sin(2*time);
-    },
     
-    fillData () {
-
+    createChart () {
+      // グラフの描画
+      this.lineChart = new Chart(this.canvasCtxChart, {
+        type: 'line',
+        data: this.data,
+        options: this.options,
+      });
     }
   }
 }
 </script>
 
-<style scoped>
-  .small {
-    max-width: 600px;
-    margin:  150px auto;
-  }
+<style>
 </style>
