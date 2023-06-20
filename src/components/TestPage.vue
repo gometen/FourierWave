@@ -33,20 +33,11 @@
         <canvas ref="canvas1"></canvas>
       </div>
     </v-row>
-    <v-row>
-      <v-col cols="12">
-        <div>
-          <canvas id="myChart">"</canvas>
-        </div>
-    </v-col>
-    </v-row>
 
   </v-container>
 </template>
 
 <script>
-  import Chart from 'chart.js/auto';
-
   // 物体の初期状態を設定
   var position = 0; // 初期位置
   var amplitude = 100; // 上下の振幅（ピクセル）
@@ -61,61 +52,20 @@ export default {
     this.canvas.height = 400;
     this.canvasCtx1 = this.canvas.getContext("2d");
 
-    this.canvasCtxChart = document.getElementById('myChart').getContext('2d');
-
     // 初期値設定
     position = this.canvas.height / 2; // 初期位置（画面の中央）
 
-
-    
   },
   data() {
     return {
       datacollection: null,
       canvas: null,
       canvasCtx1: null,
-      canvasCtxChart: null,
-      lineChart: null,
-      data: {
-        labels: [], // X軸のラベル
-        datasets: [
-          {
-            label: '位置',
-            data: [], // 位置データ
-            borderColor: '#3F51B5',
-            fill: false,
-          },
-          {
-            label: '速度',
-            data: [], // 速度データ
-            borderColor: '#009688',
-            fill: false,
-          },
-          {
-            label: '加速度',
-            data: [], // 加速度データ
-            borderColor: '#FF5722',
-            fill: false,
-          },
-        ]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: '時間',
-            },
-          },
-          y: {
-            title: {
-              display: true,
-              text: '値',
-            },
-          },
-        },
-      }
+      svg: null,
+      line: null,
+      positionData: [], // 位置のデータ配列
+      velocityData: [],
+      accelerationData: []
     };
   },
   methods: {
@@ -126,14 +76,8 @@ export default {
 
       // データを更新
       const cPosition = Math.sin(2 * elapsedTime); // 位置の計算（サイン波）
-      const velocity = Math.cos(2 * elapsedTime); // 速度の計算（コサイン波）
-      const acceleration = -Math.sin(2 * elapsedTime); // 加速度の計算（マイナスのサイン波）
-
-      // データを追加
-      this.data.labels.push(elapsedTime);
-      this.data.datasets[0].data.push(cPosition);
-      this.data.datasets[1].data.push(velocity);
-      this.data.datasets[2].data.push(acceleration);
+      //const velocity = Math.cos(2 * elapsedTime); // 速度の計算（コサイン波）
+      //const acceleration = -Math.sin(2 * elapsedTime); // 加速度の計算（マイナスのサイン波）
 
       // 上下の振動を計算
       var y = position + amplitude * cPosition;
@@ -152,47 +96,26 @@ export default {
       this.canvasCtx1.stroke();
 
       // 一定時間ごとにデータを更新
-      if (this.data.labels.length < 500) { // 500回まで更新する場合
+      if (elapsedTime < 10) { // 10秒まで更新する場合
+        
         setTimeout(this.animate, 10);
       }else{
-        this.createChart();
+        //
       }
     },
     start() {
       // 時間初期化
       startTime = null;
-
-      // データを初期化
-      this.data.labels = [];
-      this.data.datasets[0].data = [];
-      this.data.datasets[1].data = [];
-      this.data.datasets[2].data = [];
-      
+      this.drawChart(); // テスト
 
       // アニメーションの開始
       this.animate();
     },
-    
-    createChart () {
-      // グラフの描画
-      this.lineChart = new Chart(this.canvasCtxChart, {
-        type: 'line',
-        data: this.data,
-        options: this.options,
-      });
-    },
 
-    updateData(){
-      this.lineChart.data.datasets[0].data = this.data.datasets[0].data;
-      this.lineChart.data.datasets[1].data = this.data.datasets[1].data;
-      this.lineChart.data.datasets[2].data = this.data.datasets[2].data;
-
-      console.log(this.lineChart.data.datasets[0].data);
-      console.log(this.lineChart.data.datasets[1].data);
-      console.log(this.lineChart.data.datasets[2].data);
-
-      this.lineChart.update(); // グラフの更新
+    drawChart() {
+      // 空
     }
+
   }
 }
 </script>

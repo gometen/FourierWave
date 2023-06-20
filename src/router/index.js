@@ -5,7 +5,7 @@ import FourierWaveRecord from '../components/FourierWaveRecord.vue'
 import TestPage from '../components/TestPage.vue'
 import AnalyzeSpectrum from '../components/AnalyzeSpectrum.vue'
 import MakeWave from '../components/MakeWave.vue'
-
+import GraphTest from '../components/GraphTest.vue'
 
 const routes = [
   {
@@ -37,6 +37,11 @@ const routes = [
     path: '/testpage',
     name: 'testpage',
     component: TestPage
+  },
+  {
+    path: '/graphtest',
+    name: 'graphtest',
+    component: GraphTest
   },
   {
     path: '/about',

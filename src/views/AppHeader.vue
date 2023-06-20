@@ -51,6 +51,10 @@
             <v-list-item rounded prepend-icon="mdi-test-tube" 
               title="TestPage" value="testpage"></v-list-item>
           </router-link>
+          <router-link class="routerLink" to="/graphtest">
+            <v-list-item rounded prepend-icon="mdi-test-tube" 
+              title="GraphTest" value="graphtest"></v-list-item>
+          </router-link>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
