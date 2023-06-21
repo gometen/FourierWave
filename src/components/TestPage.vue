@@ -27,14 +27,31 @@
       <v-col cols="12" md="3" lg="3" xl="3">
         <v-btn prepend-icon="mdi-home-outline" block color="indigo" to="/" class="d-flex align-center">Home</v-btn>
       </v-col>
+      <v-col cols="12" md="3" lg="3" xl="3">
+        <v-text-field v-model="inputOmega" 
+          hint="角速度を整数で入れてください"
+          clearable label="角速度" variant="underlined"
+          placeholder="例：2"></v-text-field>
+      </v-col>
+      <v-col cols="12" md="3" lg="3" xl="3">
+        <v-text-field v-model="inputSec" 
+          hint="動かす秒数を整数で入れてください"
+          clearable label="秒数" variant="underlined"
+          placeholder="例：10"></v-text-field>
+      </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" md="3" lg="3" xl="3">
+      <v-col cols="12" md="4" lg="4" xl="4">
         <div align="center">
-          <canvas ref="canvas1"></canvas>
+          <canvas ref="canvas2" style="border-style: solid; border-color: white"></canvas>
         </div>
       </v-col>
-      <v-col cols="12" md="9" lg="9" xl="9">
+      <v-col cols="12" md="2" lg="2" xl="2">
+        <div align="center">
+          <canvas ref="canvas1" style="border-style: solid; border-color: white"></canvas>
+        </div>
+      </v-col>
+      <v-col cols="12" md="6" lg="6" xl="6">
         <div id="graph" align="center"></div>
       </v-col>
     </v-row>
@@ -58,11 +75,17 @@ export default {
     this.canvas.height = 400;
     this.canvasCtx1 = this.canvas.getContext("2d");
 
+    // 描画領域2
+    this.canvas2 = this.$refs.canvas2;
+    this.canvas2.width = 400;
+    this.canvas2.height = 400;
+    this.canvasCtx2 = this.canvas2.getContext("2d");
+
     // 初期値設定
     position = this.canvas.height / 2; // 初期位置（画面の中央）
 
     // グラフ描画領域1
-    Plotly.newPlot("graph", this.graphData, this.layout);
+    Plotly.newPlot("graph", this.graphData, this.graphLayout);
 
   },
   beforeRouteLeave(to, from, next) {
@@ -74,6 +97,8 @@ export default {
       datacollection: null,
       canvas: null,
       canvasCtx1: null,
+      canvas2: null,
+      canvasCtx2: null,
       svg: null,
       line: null,
       positionData: [], // 位置のデータ配列
@@ -112,33 +137,39 @@ export default {
         },
       ],
       graphLayout: {
+        title: 'sinΘの微分を見てみる',
         xaxis: {
           title: 'Time',
         },
         yaxis: {
           title: 'Value',
         }, 
+        margin: {'t':40, 'b':20, 'l':30, 'r':20},
+        legend: {x: 0.9, y: 0.1, xanchor:'left', yanchor: 'top',},
       },
       requestId: null,
-      maxRunningTime: 10, // グラフの描画を停止する時間（秒）
+      inputSec: 10, // グラフの描画を停止する時間（秒）
     };
   },
   methods: {
     // アニメーションの実行
     animate() {
+
+
       if (!startTime) startTime = Date.now(); // 最初のタイムスタンプを保存
       var elapsedTime = (Date.now() - startTime) / 1000; // 経過時間（秒）
 
       // データを更新
-      const cPosition = - Math.sin(2 * elapsedTime); // 位置の計算（サイン波）
-      const velocity = - Math.cos(2 * elapsedTime); // 速度の計算（コサイン波）
-      const acceleration = Math.sin(2 * elapsedTime); // 加速度の計算（マイナスのサイン波）
+      const cPosition = Math.sin(2 * elapsedTime); // 位置の計算（サイン波）
+      const velocity = Math.cos(2 * elapsedTime); // 速度の計算（コサイン波）
+      const acceleration = -Math.sin(2 * elapsedTime); // 加速度の計算（マイナスのサイン波）
 
       // 上下の振動を計算
-      var y = position + amplitude * cPosition;
+      var y = position - amplitude * cPosition;
       
       // Canvasをクリア
       this.canvasCtx1.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.canvasCtx2.clearRect(0, 0, this.canvas2.width, this.canvas2.height);
       
       // 物体を描画
       this.canvasCtx1.fillStyle = "rgb(0, 0, 0)";
@@ -150,18 +181,32 @@ export default {
       this.canvasCtx1.arc(this.canvas.width / 2, y, 10, 0, 2 * Math.PI);
       this.canvasCtx1.stroke();
 
+      // 物体の回転を描画
+      this.canvasCtx2.fillStyle = "rgb(0, 0, 0)";
+      this.canvasCtx2.fillRect(0, 0, this.canvas2.width, this.canvas2.height);
+      this.canvasCtx2.lineWidth = 2;
+      this.canvasCtx2.strokeStyle = "rgb(200, 50, 50)";
+      this.canvasCtx2.beginPath();
+      this.canvasCtx2.arc(
+        position - amplitude * Math.cos(2 * elapsedTime),
+        position - amplitude * Math.sin(2 * elapsedTime),
+        10,
+        0,
+        2 * Math.PI);
+      this.canvasCtx2.stroke();
+
       this.graphData[0].x.push(elapsedTime);
       this.graphData[0].y.push(cPosition);
       this.graphData[1].x.push(elapsedTime);
       this.graphData[1].y.push(velocity);
       this.graphData[2].x.push(elapsedTime);
       this.graphData[2].y.push(acceleration);
-      Plotly.redraw("graph", this.graphData, this.layout);
+      Plotly.redraw("graph", this.graphData, this.graphLayout);
 
       this.requestId = requestAnimationFrame(this.animate);
 
        // 一定時間ごとにデータを更新
-      if (elapsedTime > this.maxRunningTime) { 
+      if (elapsedTime > this.inputSec) { 
         cancelAnimationFrame(this.requestId);
       }
 
@@ -169,6 +214,13 @@ export default {
     start() {
       // 時間初期化
       startTime = null;
+
+      this.graphData[0].x = [];
+      this.graphData[0].y = [];
+      this.graphData[1].x = [];
+      this.graphData[1].y = [];
+      this.graphData[2].x = [];
+      this.graphData[2].y = [];
 
       // アニメーションの開始
       this.animate();
