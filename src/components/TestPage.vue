@@ -8,12 +8,13 @@
                       max-width="600"
                   >
                       <v-card-title>
-                          音を構成する要素を見てみよう。
+                          sinΘの微分を目で見てみよう
                       </v-card-title>
                       <v-card-text>
-                          どの周波数がどのくらいの強さで含まれているか分かります。
-                          STARTボタンを押すとマイクの音から波と周波数を表示してくれます。
-                          COPYボタンを押すと押した瞬間の画像をボタンの下にコピーしてくれます。
+                        物体がsinΘの波を描くように動きます。
+                        sinΘの微分がcosΘ（位置の変化=速度）なので、物体の速度がcosΘの波を描くところを見ることが出来ます。
+                        加速度は速度の微分（速度の変化=加速度）で表されますが、cosΘの微分により、
+                        加速度はどのような波を描いているか、見てみましょう。
                       </v-card-text>
                   </v-card>
               </div>
@@ -149,6 +150,7 @@ export default {
       },
       requestId: null,
       inputSec: 10, // グラフの描画を停止する時間（秒）
+      inputOmega: 2, // 物体が動くスピード
     };
   },
   methods: {
@@ -160,9 +162,9 @@ export default {
       var elapsedTime = (Date.now() - startTime) / 1000; // 経過時間（秒）
 
       // データを更新
-      const cPosition = Math.sin(2 * elapsedTime); // 位置の計算（サイン波）
-      const velocity = Math.cos(2 * elapsedTime); // 速度の計算（コサイン波）
-      const acceleration = -Math.sin(2 * elapsedTime); // 加速度の計算（マイナスのサイン波）
+      const cPosition = Math.sin(this.inputOmega * elapsedTime); // 位置の計算（サイン波）
+      const velocity = Math.cos(this.inputOmega * elapsedTime); // 速度の計算（コサイン波）
+      const acceleration = -Math.sin(this.inputOmega * elapsedTime); // 加速度の計算（マイナスのサイン波）
 
       // 上下の振動を計算
       var y = position - amplitude * cPosition;
@@ -188,8 +190,8 @@ export default {
       this.canvasCtx2.strokeStyle = "rgb(200, 50, 50)";
       this.canvasCtx2.beginPath();
       this.canvasCtx2.arc(
-        position - amplitude * Math.cos(2 * elapsedTime),
-        position - amplitude * Math.sin(2 * elapsedTime),
+        position + amplitude * Math.cos(this.inputOmega * elapsedTime),
+        position - amplitude * Math.sin(this.inputOmega * elapsedTime),
         10,
         0,
         2 * Math.PI);

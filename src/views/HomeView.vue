@@ -57,13 +57,13 @@
                       <v-list-item rounded prepend-icon="mdi-sine-wave" 
                         title="波を作ってみよう" value="MakeWave"></v-list-item>
                     </router-link>
+                    <router-link class="routerLink" to="/graphtest">
+                      <v-list-item rounded prepend-icon="mdi-math-sin" 
+                        title="sinΘの微分を見てみよう" value="graphtest"></v-list-item>
+                    </router-link>
                     <router-link class="routerLink" to="/testpage">
                       <v-list-item rounded prepend-icon="mdi-test-tube" 
                         title="TestPage" value="testpage"></v-list-item>
-                    </router-link>
-                    <router-link class="routerLink" to="/graphtest">
-                      <v-list-item rounded prepend-icon="mdi-test-tube" 
-                        title="GraphTest" value="graphtest"></v-list-item>
                     </router-link>
                   </v-list-item-group>
                 </v-list>
