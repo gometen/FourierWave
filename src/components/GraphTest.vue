@@ -192,6 +192,14 @@
         this.canvasCtx1.moveTo(this.canvas.width / 2, this.canvas.height / 2);
         this.canvasCtx1.lineTo(this.canvas.width / 2, y);
         this.canvasCtx1.stroke();
+
+        // つながりを表す横線
+        this.canvasCtx1.beginPath();
+        this.canvasCtx1.lineWidth = 1;
+        this.canvasCtx1.strokeStyle = "#D7352B";
+        this.canvasCtx1.moveTo(this.canvas.width / 2, y);
+        this.canvasCtx1.lineTo(0, y);
+        this.canvasCtx1.stroke();
   
         // 物体の回転を描画
         // 物体の中心
@@ -222,6 +230,7 @@
         this.canvasCtx2.stroke();
 
         // 高さを表す線
+        /*
         this.canvasCtx2.beginPath();
         this.canvasCtx2.lineWidth = 1;
         this.canvasCtx2.strokeStyle = "#D7352B";
@@ -229,6 +238,18 @@
         this.canvasCtx2.lineTo(
           centerx,
           centery
+        );
+        this.canvasCtx2.stroke();
+        */
+
+        // つながりを表す横線
+        this.canvasCtx2.beginPath();
+        this.canvasCtx2.lineWidth = 1;
+        this.canvasCtx2.strokeStyle = "#D7352B";
+        this.canvasCtx2.moveTo(centerx, centery);
+        this.canvasCtx2.lineTo(
+          this.canvas2.width,
+          centery,
         );
         this.canvasCtx2.stroke();
 
